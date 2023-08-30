@@ -7,20 +7,19 @@ public class CarController : MonoBehaviour
 {
     private float horizontalInput, verticalInput;
     private float currentSteerAngle;
-    private bool isJumping;
+    private Rigidbody rigidBody;
+    private float currentbreakForce;
+    private bool isBreaking;
 
-    // Settings
     [SerializeField] private float motorForce, breakForce, maxSteerAngle, jumpForce;
 
-    // Wheel Colliders
     [SerializeField] private WheelCollider frontLeftWheelCollider, frontRightWheelCollider;
     [SerializeField] private WheelCollider rearLeftWheelCollider, rearRightWheelCollider;
 
-    // Wheels
     [SerializeField] private Transform frontLeftWheelTransform, frontRightWheelTransform;
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
 
-    private Rigidbody rigidBody;
+    [SerializeField] private float nitro;
 
     private void Start()
     {
@@ -33,34 +32,61 @@ public class CarController : MonoBehaviour
         HandleMotor();
         HandleSteering();
         UpdateWheels();
+        FixAll();
+        Jump();
+        Nitro();
+    }
 
-        if (isJumping)
+    private void Nitro()
+    {
+        if (Input.GetMouseButton(0))
         {
-            Jump();
+            Time.timeScale = nitro;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            Time.timeScale = 1f;
         }
     }
-    void Jump()
+
+    private void FixAll()
     {
-        rigidBody.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
+        if (Input.GetMouseButton(1))
+        {
+            rigidBody.rotation = Quaternion.identity;
+        }
+
+        if (transform.position.y > 200f)
+        {
+            Vector3 newPosition = transform.position;
+            newPosition.y = 0f;
+            transform.position = newPosition;
+        }
     }
 
+    private void Jump()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            rigidBody.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
+        }
+    }
 
     private void GetInput()
     {
-        // Steering Input
         horizontalInput = Input.GetAxis("Horizontal");
-
-        // Acceleration Input
         verticalInput = Input.GetAxis("Vertical");
-
-        // Jump Input
-        isJumping = Input.GetKey(KeyCode.Space);
+        isBreaking = Input.GetKey(KeyCode.E);
     }
 
     private void HandleMotor()
     {
         frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
         frontRightWheelCollider.motorTorque = verticalInput * motorForce;
+
+        currentbreakForce = isBreaking ? breakForce : 0f;
+        ApplyBreaking();
     }
 
     private void HandleSteering()
@@ -85,5 +111,13 @@ public class CarController : MonoBehaviour
         wheelCollider.GetWorldPose(out pos, out rot);
         wheelTransform.rotation = rot;
         wheelTransform.position = pos;
+    }
+
+    private void ApplyBreaking()
+    {
+        frontRightWheelCollider.brakeTorque = currentbreakForce;
+        frontLeftWheelCollider.brakeTorque = currentbreakForce;
+        rearLeftWheelCollider.brakeTorque = currentbreakForce;
+        rearRightWheelCollider.brakeTorque = currentbreakForce;
     }
 }
