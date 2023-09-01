@@ -9,21 +9,21 @@ public class CarController : MonoBehaviour
     private float currentSteerAngle;
     private Rigidbody rigidBody;
     private float currentbreakForce;
-    private bool isBreaking;
-
+    private bool isBreaking, canNitro;
     [SerializeField] private float motorForce, breakForce, maxSteerAngle, jumpForce;
-
     [SerializeField] private WheelCollider frontLeftWheelCollider, frontRightWheelCollider;
     [SerializeField] private WheelCollider rearLeftWheelCollider, rearRightWheelCollider;
-
     [SerializeField] private Transform frontLeftWheelTransform, frontRightWheelTransform;
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
+    [SerializeField] private float nitro; 
+    public float nitroHave;
 
-    [SerializeField] private float nitro;
+    [SerializeField] Base baseNitro;
 
     private void Start()
     {
         rigidBody = this.gameObject.GetComponent<Rigidbody>();
+        nitroHave = 100f;
     }
 
     private void FixedUpdate()
@@ -39,9 +39,20 @@ public class CarController : MonoBehaviour
 
     private void Nitro()
     {
-        if (Input.GetMouseButton(0))
+        if (nitroHave > 0)
+        {
+            canNitro = true;
+        }
+
+        if (nitroHave <= 0)
+        {
+            canNitro = false;
+        }
+
+        if (Input.GetMouseButton(0) && canNitro)
         {
             Time.timeScale = nitro;
+            nitroHave = nitroHave - 0.2f;
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -120,4 +131,27 @@ public class CarController : MonoBehaviour
         rearLeftWheelCollider.brakeTorque = currentbreakForce;
         rearRightWheelCollider.brakeTorque = currentbreakForce;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("NitroBase"))
+        {
+            baseNitro.GetTouch();
+            canNitro = true;
+            nitroHave = 100;
+        }
+    }
+
+    /* To-Do
+     * Partículas
+     * Obstáculos
+     * Gol
+     * Timer
+     * Puntaje
+     * Audio
+     * Menu
+     * Opciones
+     * Tienda
+     * Anuncios
+     * */
 }
