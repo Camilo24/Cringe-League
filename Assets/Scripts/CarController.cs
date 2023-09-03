@@ -17,7 +17,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
     [SerializeField] private float nitro; 
     public float nitroHave;
-
+    [SerializeField] ParticleSystem rearLeftParticle, rearRightParticle;
     [SerializeField] Base baseNitro;
 
     private void Start()
@@ -35,6 +35,42 @@ public class CarController : MonoBehaviour
         FixAll();
         Jump();
         Nitro();
+        ParticleManager();
+    }
+
+    private void ParticleManager()
+    {
+        if (Mathf.Abs(horizontalInput) > 0.1f || Mathf.Abs(verticalInput) > 0.1f)
+        {
+            if (!rearLeftParticle.isPlaying)
+            {
+                rearLeftParticle.Play();
+            }
+        }
+
+        else
+        {
+            if (rearLeftParticle.isPlaying)
+            {
+                rearLeftParticle.Stop();
+            }
+        }
+
+        if (Mathf.Abs(horizontalInput) > 0.1f || Mathf.Abs(verticalInput) > 0.1f)
+        {
+            if (!rearRightParticle.isPlaying)
+            {
+                rearRightParticle.Play();
+            }
+        }
+
+        else
+        {
+            if (rearRightParticle.isPlaying)
+            {
+                rearRightParticle.Stop();
+            }
+        }
     }
 
     private void Nitro()
@@ -143,11 +179,12 @@ public class CarController : MonoBehaviour
     }
 
     /* To-Do
-     * Partículas
+     * Partículas Nitro
      * Obstáculos
      * Gol
      * Timer
      * Puntaje
+     * Postprocesado
      * Audio
      * Menu
      * Opciones
