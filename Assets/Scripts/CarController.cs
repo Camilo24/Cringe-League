@@ -9,7 +9,7 @@ public class CarController : MonoBehaviour
     private float currentSteerAngle;
     private Rigidbody rigidBody;
     private float currentbreakForce;
-    private bool isBreaking, canNitro;
+    private bool isBreaking, canNitro, inNitro;
     [SerializeField] private float motorForce, breakForce, maxSteerAngle, jumpForce;
     [SerializeField] private WheelCollider frontLeftWheelCollider, frontRightWheelCollider;
     [SerializeField] private WheelCollider rearLeftWheelCollider, rearRightWheelCollider;
@@ -17,13 +17,15 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
     [SerializeField] private float nitro; 
     public float nitroHave;
-    [SerializeField] ParticleSystem rearLeftParticle, rearRightParticle;
-    [SerializeField] Base baseNitro;
+    [SerializeField] ParticleSystem rearLeftParticle, rearRightParticle, rearLeftNitroParticle, rearRightNitroParticle;
+    private GameObject[] sun;
 
     private void Start()
     {
         rigidBody = this.gameObject.GetComponent<Rigidbody>();
         nitroHave = 100f;
+        inNitro = false;
+        sun = GameObject.FindGameObjectsWithTag("NitroBase");
     }
 
     private void FixedUpdate()
@@ -71,6 +73,18 @@ public class CarController : MonoBehaviour
                 rearRightParticle.Stop();
             }
         }
+
+        if (inNitro)
+        {
+            rearLeftNitroParticle.Play();
+            rearRightNitroParticle.Play();
+        }
+
+        if (!inNitro)
+        {
+            rearLeftNitroParticle.Stop();
+            rearRightNitroParticle.Stop();
+        }
     }
 
     private void Nitro()
@@ -85,15 +99,30 @@ public class CarController : MonoBehaviour
             canNitro = false;
         }
 
-        if (Input.GetMouseButton(0) && canNitro)
+        if (nitroHave > 0 && canNitro)
         {
-            Time.timeScale = nitro;
-            nitroHave = nitroHave - 0.2f;
+            if (Input.GetMouseButton(0))
+            {
+                Time.timeScale = nitro;
+                nitroHave = nitroHave - 0.2f;
+                inNitro = true;
+            }
+
+            else
+            {
+                inNitro = false; 
+            }
+        }
+
+        else
+        {
+            inNitro = false; 
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             Time.timeScale = 1f;
+            inNitro = false;
         }
     }
 
@@ -172,14 +201,22 @@ public class CarController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("NitroBase"))
         {
-            baseNitro.GetTouch();
+            other.gameObject.SetActive(false);
             canNitro = true;
             nitroHave = 100;
+            Invoke("Respawn", 5f);
+        }
+    }
+
+    private void Respawn()
+    {
+        for (int i = 0; i < sun.Length; i++)
+        {
+            sun[i].SetActive(true);
         }
     }
 
     /* To-Do
-     * Partículas Nitro
      * Obstáculos
      * Gol
      * Timer
