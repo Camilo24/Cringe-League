@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class TD1 : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed;
+    private float moveSpeed;
     private float initialPosition;
     private bool movingUp = true;
 
     void Start()
     {
         initialPosition = transform.position.y;
+        moveSpeed = 2f;
     }
 
     void Update()

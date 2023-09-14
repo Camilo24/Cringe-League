@@ -218,10 +218,10 @@ public class CarController : MonoBehaviour
 
     /* To-Do
      * Obstáculos:
-     ** Top-Down 2 (repentino)
      ** Left-Right
      ** Rotator vertical
      ** Rotator horizontal
+     * Level design
      * Gol
      * Timer
      * Puntaje
