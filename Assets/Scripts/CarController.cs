@@ -217,14 +217,8 @@ public class CarController : MonoBehaviour
     }
 
     /* To-Do
-     * Obstáculos:
-     ** Left-Right
-     ** Rotator vertical
-     ** Rotator horizontal
-     * Level design
-     * Gol
-     * Timer
-     * Puntaje
+     * Salir volando
+     * Timer - Ganar
      * Postprocesado
      * Audio
      * Menu

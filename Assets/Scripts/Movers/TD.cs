@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TD1 : MonoBehaviour
+public class TD : MonoBehaviour
 {
     private float moveSpeed;
     private float initialPosition;
@@ -11,7 +11,7 @@ public class TD1 : MonoBehaviour
     void Start()
     {
         initialPosition = transform.position.y;
-        moveSpeed = 2f;
+        moveSpeed = 7f;
     }
 
     void Update()
