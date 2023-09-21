@@ -217,13 +217,10 @@ public class CarController : MonoBehaviour
     }
 
     /* To-Do
-     * Salir volando
      * Timer - Ganar
+     * Pausa
      * Postprocesado
      * Audio
      * Menu
-     * Opciones
-     * Tienda
-     * Anuncios
      * */
 }
