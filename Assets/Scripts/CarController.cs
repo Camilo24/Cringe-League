@@ -22,6 +22,7 @@ public class CarController : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1f;
         rigidBody = this.gameObject.GetComponent<Rigidbody>();
         nitroHave = 100f;
         inNitro = false;
@@ -217,10 +218,7 @@ public class CarController : MonoBehaviour
     }
 
     /* To-Do
-     * Timer - Ganar
-     * Pausa
      * Postprocesado
      * Audio
-     * Menu
      * */
 }

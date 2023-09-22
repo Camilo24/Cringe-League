@@ -9,6 +9,7 @@ public class LR : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f;
         moveSpeed1 = 7f;
         initialPosition1 = transform.position.x;
     }

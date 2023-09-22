@@ -10,6 +10,7 @@ public class TD : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f;
         initialPosition = transform.position.y;
         moveSpeed = 7f;
     }

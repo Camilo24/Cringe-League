@@ -10,6 +10,7 @@ public class PushPlayer : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1f;
         rb1 = porteria1.GetComponent<Rigidbody>();
         rb2 = porteria2.GetComponent<Rigidbody>();
         rb = this.GetComponent<Rigidbody>();
