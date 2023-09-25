@@ -216,9 +216,4 @@ public class CarController : MonoBehaviour
             sun[i].SetActive(true);
         }
     }
-
-    /* To-Do
-     * Postprocesado
-     * Audio
-     * */
 }
