@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     private float currentTime;
     private int roundedTime;
     private bool paused;
+    [SerializeField] private AudioSource winAudio;
 
     void Start()
     {
@@ -68,6 +69,7 @@ public class UIManager : MonoBehaviour
         pushp.Push1();
         Invoke("Won", 2f);
         Invoke("ReloadScene", 3f);
+        winAudio.Play();
     }
 
     public void MadeAGoal2()
@@ -76,6 +78,7 @@ public class UIManager : MonoBehaviour
         pushp.Push2();
         Invoke("Won", 2f);
         Invoke("ReloadScene", 3f);
+        winAudio.Play();
     }
 
     private void ReloadScene()

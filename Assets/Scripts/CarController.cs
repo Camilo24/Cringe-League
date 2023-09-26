@@ -19,6 +19,7 @@ public class CarController : MonoBehaviour
     public float nitroHave;
     [SerializeField] ParticleSystem rearLeftParticle, rearRightParticle, rearLeftNitroParticle, rearRightNitroParticle;
     private GameObject[] sun;
+    [SerializeField] private AudioSource nitroAudio;
 
     private void Start()
     {
@@ -106,7 +107,7 @@ public class CarController : MonoBehaviour
             {
                 Time.timeScale = nitro;
                 nitroHave = nitroHave - 0.2f;
-                inNitro = true;
+                inNitro = true; 
             }
 
             else
@@ -206,6 +207,7 @@ public class CarController : MonoBehaviour
             canNitro = true;
             nitroHave = 100;
             Invoke("Respawn", 5f);
+            nitroAudio.Play();
         }
     }
 
